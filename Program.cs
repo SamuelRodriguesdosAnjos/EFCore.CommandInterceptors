@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace EFCore.Interceptors
 {
@@ -6,7 +7,24 @@ namespace EFCore.Interceptors
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var db = new ApplicationDbContext();            
+            db.Database.EnsureCreated();
+
+            db.Pessoas.Add(new Pessoa {
+                Nome = "João"
+            });
+
+            db.Pessoas.Add(new Pessoa {
+                Nome = "Paula"
+            });
+
+            db.Pessoas.Add(new Pessoa {
+                Nome = "Maya"
+            });
+
+            db.SaveChanges();
+
+            db.Pessoas.FirstOrDefault(x => x.Nome.Contains("ya"));
         }
     }
 }

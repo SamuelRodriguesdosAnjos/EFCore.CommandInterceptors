@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.Interceptors
@@ -6,13 +7,23 @@ namespace EFCore.Interceptors
     {
         public DbSet<Pessoa> Pessoas { get; set; }
 
+        public ApplicationDbContext()
+        {
+
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=:memory:");
+            optionsBuilder
+                .UseSqlServer("Data Source=localhost;Database=Teste-01;Integrated Security=True;")
+                .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information)
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging();
+
             base.OnConfiguring(optionsBuilder);
         }
     }
