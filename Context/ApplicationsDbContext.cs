@@ -24,6 +24,8 @@ namespace EFCore.Interceptors
                 .EnableDetailedErrors()
                 .EnableSensitiveDataLogging();
 
+            optionsBuilder.AddInterceptors(new InterceptorCommands());
+
             base.OnConfiguring(optionsBuilder);
         }
     }
